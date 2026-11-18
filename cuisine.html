@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>중국 & 한국 요리 소개 / 中韩美食介绍</title>
+  <style>
+    :root {
+      --red: #c0392b;
+      --gold: #f1c40f;
+      --dark: #1a1a2e;
+      --card-bg: #fff;
+      --text: #333;
+      --light-bg: #f9f5f0;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', 'Noto Sans KR', 'Noto Sans SC', sans-serif;
+      background: var(--light-bg);
+      color: var(--text);
+    }
+
+    /* ── Header ── */
+    header {
+      background: linear-gradient(135deg, #c0392b 0%, #8e1a0e 50%, #2c1810 100%);
+      color: #fff;
+      text-align: center;
+      padding: 60px 20px 50px;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '🍜🥢🍚🥘🍲🥗';
+      position: absolute;
+      top: 10px; left: 0; right: 0;
+      font-size: 2rem;
+      opacity: 0.15;
+      letter-spacing: 20px;
+      white-space: nowrap;
+    }
+    header h1 {
+      font-size: 2.8rem;
+      letter-spacing: 2px;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+    }
+    header h1 span { color: var(--gold); }
+    header p.subtitle {
+      margin-top: 12px;
+      font-size: 1.1rem;
+      opacity: 0.85;
+    }
+
+    /* ── Language Toggle ── */
+    .lang-toggle {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      padding: 24px;
+      background: var(--dark);
+    }
+    .lang-btn {
+      padding: 10px 32px;
+      border: 2px solid var(--gold);
+      border-radius: 30px;
+      background: transparent;
+      color: var(--gold);
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 600;
+    }
+    .lang-btn.active,
+    .lang-btn:hover {
+      background: var(--gold);
+      color: var(--dark);
+    }
+
+    /* ── Content Sections ── */
+    .content { display: none; }
+    .content.active { display: block; }
+
+    /* ── Section Headers ── */
+    .section-title {
+      text-align: center;
+      padding: 50px 20px 20px;
+      font-size: 2rem;
+      font-weight: 800;
+      position: relative;
+    }
+    .section-title::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 4px;
+      background: var(--red);
+      margin: 12px auto 0;
+      border-radius: 2px;
+    }
+
+    /* ── Intro Banner ── */
+    .intro-banner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      max-width: 860px;
+      margin: 10px auto 40px;
+      padding: 28px 32px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      border-left: 6px solid var(--red);
+      text-align: left;
+    }
+    .intro-banner .icon { font-size: 3rem; flex-shrink: 0; }
+    .intro-banner p { font-size: 1.05rem; line-height: 1.8; color: #555; }
+
+    /* ── Grid ── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 28px;
+      max-width: 1200px;
+      margin: 0 auto 60px;
+      padding: 0 24px;
+    }
+
+    /* ── Card ── */
+    .card {
+      background: var(--card-bg);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.09);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.15);
+    }
+    .card-emoji {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+      padding: 36px 20px 24px;
+      background: linear-gradient(135deg, #fff5f5, #fff0e0);
+    }
+    .card-body { padding: 20px 24px 28px; }
+    .card-body h3 {
+      font-size: 1.3rem;
+      margin-bottom: 6px;
+      color: var(--red);
+    }
+    .card-body .sub-name {
+      font-size: 0.85rem;
+      color: #999;
+      margin-bottom: 10px;
+    }
+    .card-body p {
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: #555;
+    }
+    .tag {
+      display: inline-block;
+      margin-top: 14px;
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      background: #fff0e0;
+      color: #c0392b;
+      border: 1px solid #f5c6b8;
+    }
+
+    /* ── Divider ── */
+    .divider {
+      border: none;
+      height: 3px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+      max-width: 300px;
+      margin: 10px auto 50px;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      background: var(--dark);
+      color: #aaa;
+      font-size: 0.9rem;
+    }
+    footer span { color: var(--gold); }
+  </style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<header>
+  <h1>🍜 <span>中韩</span> 美食世界 · <span>중한</span> 요리의 세계 🥢</h1>
+  <p class="subtitle">探索中国与韩国的饮食文化 · 중국과 한국의 음식 문화를 탐험하세요</p>
+</header>
+
+<!-- ══ LANGUAGE TOGGLE ══ -->
+<div class="lang-toggle">
+  <button class="lang-btn active" onclick="setLang('ko')">🇰🇷 한국어</button>
+  <button class="lang-btn" onclick="setLang('zh')">🇨🇳 中文</button>
+</div>
+
+<!-- ════════════════════════════════════════
+     KOREAN CONTENT
+════════════════════════════════════════ -->
+<div id="content-ko" class="content active">
+
+  <!-- 중국 요리 -->
+  <h2 class="section-title">🇨🇳 중국 요리</h2>
+  <div class="intro-banner">
+    <div class="icon">🏮</div>
+    <p>중국 요리는 수천 년의 역사를 가진 세계에서 가장 다양한 음식 문화 중 하나입니다.
+       광둥, 쓰촨, 베이징, 상하이 등 지역마다 독특한 풍미와 조리법이 발달해 있으며,
+       신선한 재료와 절묘한 균형의 맛이 특징입니다.</p>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <div class="card-emoji">🦆</div>
+      <div class="card-body">
+        <h3>베이징 오리구이</h3>
+        <div class="sub-name">北京烤鸭 · Běijīng Kǎoyā</div>
+        <p>바삭한 껍질과 부드러운 오리 고기가 조화를 이루는 베이징의 대표 요리. 얇은 밀전병에 채소와 소스를 곁들여 먹습니다.</p>
+        <span class="tag">베이징 요리</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-emoji">🌶️</div>
+      <div class="card-body">
+        <h3>마파두부</h3>
+        <div class="sub-name">麻婆豆腐 · Mápó Dòufu</div>
+        <p>쓰촨식 두부 요리로 얼얼하고 매운 맛이 특징입니다. 두반장과 화자오(산초)가 만들어내는 복합적인 맛이 일품입니다.</p>
+        <span class="tag">쓰촨 요리</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-emoji">🥟</div>
+      <div class="card-body">
+        <h3>딤섬</h3>
+        <div class="sub-name">点心 · Diǎnxīn</div>
+        <p>광둥 지방의 전통 간식 문화. 하가우, 샤오마이 등 다양한 만두류를 차와 함께 즐기는 '얌차(飲茶)' 문화의 중심입니다.</p>
+        <span class="tag">광둥 요리</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-emoji">🍜</div>
+      <div class="card-body">
+        <h3>란저우 라면</h3>
+        <div class="sub-name">兰州拉面 · Lánzhōu Lāmiàn</div>
+        <p>손으로 직접 늘려 만든 면을 소 사골 육수에 담은 중국식 라면. 맑고 깊은 육수 맛이 중독성 있습니다.</p>
+        <span class="tag">서북 요리</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-emoji">🍢</div>
+      <div class="card-body">
+        <h3>탕후루</h3>
+        <div class="sub-name">糖葫芦 · Tánghúlu</div>
+        <p>산사나무 열매를 꼬치에 꿰어 설탕을 입힌 중국의 전통 길거리 간식. 새콤달콤한 맛이 특징입니다.</p>
+        <span class="tag">전통 간식</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-emoji">🥩</div>
+      <div class="card-body">
+        <h3>훠궈</h3>
+        <div class="sub-name">火锅 · Huǒguō</div>
+        <p>펄펄 끓는 육수에 각종 재료를 넣어 함께 먹는 중국식 샤부샤부. 마라 훠궈의 얼얼한 맛이 최근 세계적으로 인기를 끌고 있습니다.</p>
+        <span class="tag">쓰촨 요리</span>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- 한국 요리 -->
+  <h2 class="section-title">🇰🇷 한국 요리</h2>
+  <div class="intro-banner">
+    <div class="icon">🌿</div>
+    <p>한국 요리는 발효 문화와 제철 식재료를 중심으로 발달한 건강한 음식 문화입니다.
+       김치, 된장, 간장 등 발효 식품이 기본을 이루며, 맵고 감칠맛 나는 양념이
+       조화롭게 어우러지는 것이 특징입니다. 최근 K-푸드 열풍으로 전 세계적 주목을 받고 있습니다.</p>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <div class="card-emoji">🥘</div>
+      <div class="card-body">
+        <h3>비빔밥</h3>
+        <div class="sub-name">비빔밥 · Bibimbap</div>
+        <p>밥 위에 나물, 고기, 달걀, 고추장을 올려 비벼 먹는 한국의 대표 음식. 균형 잡힌 영양과 화려한 색감으로 세계인에게 사랑받습니다.</p>
+        <span class="tag">한국 대표 음식</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-emoji">🍖</div>
+      <div class="card-body">
+        <h3>삼겹살</h3>
+        <div class="sub-name">삼겹살 · Samgyeopsal</div>
+        <p>직화로 구워 먹는 돼지 삼겹살. 쌈채소와 된장, 마늘과 함께 먹는 방식이 한국 고기 문화의 정수입니다.</p>
+        <span class="tag">한국 BBQ</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-emoji">🍲</div>
+      <div class="card-body">
+        <h3>김치찌개</h3>
+        <div class="sub-name">김치찌개 · Kimchi Jjigae</div>
+        <p>잘 익은 김치로 끓이는 한국의 국민 찌개. 돼지고기 또는 참치와 함께 얼큰하게 끓여내며 한국인의 소울푸드로 꼽힙니다.</p>
+        <span class="tag">한국 찌개</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-emoji">🍱</div>
+      <div class="card-body">
+        <h3>불고기</h3>
+        <div class="sub-name">불고기 · Bulgogi</div>
+        <p>간장, 설탕, 참기름 등으로 양념한 쇠고기를 불에 구운 요리. 달콤하고 짭조름한 맛이 외국인들에게도 큰 인기를 끌고 있습니다.</p>
+        <span class="tag">한국 BBQ</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-emoji">🌊</div>
+      <div class="card-body">
+        <h3>냉면</h3>
+        <div class="sub-name">냉면 · Naengmyeon</div>
+        <p>메밀 또는 감자 전분으로 만든 면을 차가운 육수에 담아 먹는 한국식 냉면. 평양냉면의 담백함과 함흥냉면의 비빔식이 대표적입니다.</p>
+        <span class="tag">한국 면 요리</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-emoji">🥐</div>
+      <div class="card-body">
+        <h3>떡볶이</h3>
+        <div class="sub-name">떡볶이 · Tteokbokki</div>
+        <p>쫄깃한 가래떡을 고추장 소스로 볶아낸 한국의 국민 간식. 길거리 음식부터 고급 레스토랑까지 다양한 형태로 발전했습니다.</p>
+        <span class="tag">길거리 음식</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     CHINESE CONTENT
+════════════════════════════════════════ -->
+<div id="content-zh" class="content">
+
+  <!-- 中国菜 -->
+  <h2 class="section-title">🇨🇳 中国美食</h2>
+  <div class="intro-banner">
+    <div class="icon">🏮</div>
+    <p>中国饮食文化源远流长，拥有数千年历史，是世界上最多元化的美食文化之一。
+       从粤菜的鲜美，到川菜的麻辣，再到北京菜的浓郁，各地风味各具特色，
+       以新鲜食材和精妙的口味平衡著称于世。</p>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <div class="card-emoji">🦆</div>
+      <div class="card-body">
+        <h3>北京烤鸭</h3>
+        <div class="sub-name">베이징 오리구이 · Běijīng Kǎoyā</div>
+        <p>以酥脆的鸭皮和鲜嫩的鸭肉著称，是北京最具代表性的菜肴。搭配薄饼、葱丝和甜面酱一同食用，风味绝佳。</p>
+        <span class="tag">北京菜</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-emoji">🌶️</div>
+      <div class="card-body">
+        <h3>麻婆豆腐</h3>
+        <div class="sub-name">마파두부 · Mápó Dòufu</div>
+        <p>四川经典名菜，以豆腐为主料，加入豆瓣酱和花椒烹制而成，麻辣鲜香，口感层次丰富，令人回味无穷。</p>
+        <span class="tag">川菜</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-emoji">🥟</div>
+      <div class="card-body">
+        <h3>点心</h3>
+        <div class="sub-name">딤섬 · Diǎnxīn</div>
+        <p>广东传统饮茶文化的精髓，包括虾饺、烧卖等各式精巧小点，配茶享用，是广式饮食文化"饮茶"习俗的核心。</p>
+        <span class="tag">粤菜</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-emoji">🍜</div>
+      <div class="card-body">
+        <h3>兰州拉面</h3>
+        <div class="sub-name">란저우 라면 · Lánzhōu Lāmiàn</div>
+        <p>以手工拉制的劲道面条配以牛骨清汤，汤色清澈，味道醇厚，是西北地区最具代表性的面食之一，令人一吃难忘。</p>
+        <span class="tag">西北菜</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-emoji">🍢</div>
+      <div class="card-body">
+        <h3>糖葫芦</h3>
+        <div class="sub-name">탕후루 · Tánghúlu</div>
+        <p>将山楂等果实串在竹签上，外裹晶莹糖衣，是中国传统街头小吃的代表。酸甜可口，外脆内软，老少皆宜。</p>
+        <span class="tag">传统小吃</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-emoji">🥩</div>
+      <div class="card-body">
+        <h3>火锅</h3>
+        <div class="sub-name">훠궈 · Huǒguō</div>
+        <p>将各种食材涮入沸腾的锅底共同享用，麻辣火锅的独特风味近年来风靡全球，成为中国饮食文化走向世界的重要代表。</p>
+        <span class="tag">川菜</span>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- 韩国菜 -->
+  <h2 class="section-title">🇰🇷 韩国美食</h2>
+  <div class="intro-banner">
+    <div class="icon">🌿</div>
+    <p>韩国料理以发酵文化和时令食材为核心，泡菜、大酱、酱油等发酵食品构成了韩食的基础。
+       辛辣而鲜美的调味与食材和谐交融，是韩国饮食的最大特色。
+       近年来随着韩流文化的兴起，韩国美食在全世界备受瞩目。</p>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <div class="card-emoji">🥘</div>
+      <div class="card-body">
+        <h3>拌饭</h3>
+        <div class="sub-name">비빔밥 · Bibimbap</div>
+        <p>在米饭上摆放各色蔬菜、肉类、鸡蛋和辣椒酱，拌匀后食用的韩国代表性料理。营养均衡，色彩丰富，深受世界各地食客喜爱。</p>
+        <span class="tag">韩国代表菜</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-emoji">🍖</div>
+      <div class="card-body">
+        <h3>烤五花肉</h3>
+        <div class="sub-name">삼겹살 · Samgyeopsal</div>
+        <p>在明火上烤制的猪五花肉，配以生菜包裹、大酱和大蒜同食，是韩国烧烤文化的精髓，也是韩国人最爱的日常美食之一。</p>
+        <span class="tag">韩国烤肉</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-emoji">🍲</div>
+      <div class="card-body">
+        <h3>泡菜锅</h3>
+        <div class="sub-name">김치찌개 · Kimchi Jjigae</div>
+        <p>以熟透的泡菜为主料炖煮的韩国国民汤锅，加入猪肉或金枪鱼，汤汁浓郁辛辣，是韩国人心目中最具安慰感的家常料理。</p>
+        <span class="tag">韩国汤锅</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-emoji">🍱</div>
+      <div class="card-body">
+        <h3>烤牛肉</h3>
+        <div class="sub-name">불고기 · Bulgogi</div>
+        <p>以酱油、糖、芝麻油等腌制后烤制的牛肉料理，味道甜咸适中，香气四溢，是韩国料理中最广为外国人所知和喜爱的菜肴之一。</p>
+        <span class="tag">韩国烤肉</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-emoji">🌊</div>
+      <div class="card-body">
+        <h3>冷面</h3>
+        <div class="sub-name">냉면 · Naengmyeon</div>
+        <p>以荞麦或土豆淀粉制成的细面，浸泡在冰凉清汤中享用的韩国特色面食。平壤冷面以清淡著称，咸兴冷面则以拌面形式为主。</p>
+        <span class="tag">韩国面食</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-emoji">🥐</div>
+      <div class="card-body">
+        <h3>炒年糕</h3>
+        <div class="sub-name">떡볶이 · Tteokbokki</div>
+        <p>将Q弹的年糕条用辣椒酱翻炒而成的韩国国民小吃，从街头摊位到高级餐厅均有各式创意做法，是韩国饮食文化中不可或缺的一部分。</p>
+        <span class="tag">街头小吃</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <p>🍜 <span>중한 요리의 세계</span> · <span>中韩美食世界</span> 🥢</p>
+  <p style="margin-top:8px; font-size:0.8rem;">두 나라의 음식 문화를 탐험하세요 · 探索两国饮食文化</p>
+</footer>
+
+<script>
+  function setLang(lang) {
+    // Update content visibility
+    document.querySelectorAll('.content').forEach(el => el.classList.remove('active'));
+    document.getElementById('content-' + lang).classList.add('active');
+
+    // Update button states
+    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+
+    // Update html lang attribute
+    document.documentElement.lang = lang;
+  }
+</script>
+</body>
+</html>
+
